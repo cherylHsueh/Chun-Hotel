@@ -1,0 +1,14 @@
+@mixin fontsize($h2size,$h3size,$h4size,$psize){
+  h2{
+      font-size:$h2size;
+  }
+  h3{
+      font-size:$h3size;
+  }
+  h4{
+      font-size:$h4size;
+  }
+  p{
+      font-size:$psize;
+  }
+}

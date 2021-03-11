@@ -3,4 +3,21 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-createApp(App).use(store).use(router).mount('#app')
+// [ CSS Entry ]
+import './assets/sass/all.scss'
+
+// [ Plugins ]
+import dayjs from './plugins/dayjs'
+import fontAwesome from './plugins/fontAwesome'
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+const app = createApp(App)
+
+app.use(VueAxios, axios)
+app.use(dayjs)
+app.use(fontAwesome)
+app.use(router)
+app.use(store)
+app.mount('#app')

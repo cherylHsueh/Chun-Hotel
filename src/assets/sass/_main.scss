@@ -1,0 +1,22 @@
+// variable
+$grid-num:12;
+
+/*============RWD判斷 <- 格線與容器================*/
+// @include rwd(small){
+//   @include grid(sm,$grid-num);
+// }
+@include rwd(mobile){
+  @include grid(s,$grid-num);
+}
+@include rwd(medium){
+  @include grid(md,$grid-num);
+}
+// @include rwd(large){
+//   @include grid(l,$grid-num);
+// }
+@include rwd(desktop){
+  @include grid(xl,$grid-num);
+}
+// @include rwd(big){
+//   @include grid(xxl,$grid-num);
+// }
