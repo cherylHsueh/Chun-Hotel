@@ -29,3 +29,25 @@ img{
       clear: both;
   }
 }
+
+.d-flex{
+  display: flex;
+}
+
+.position-relative{
+  position: relative;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.full-screen{
+  height: 100vh;
+}
+
+@for $i from 1 through 9{
+  .h-srceen-#{ $i }{
+    height:$i * 10vh;
+  }
+}
