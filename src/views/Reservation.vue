@@ -282,6 +282,7 @@ export default {
       font-size: 20px;
       padding-left: 20px;
       border:1px solid #A5BB94;
+      border-radius: 0;
     }
     &--date{
       width: 100%;
@@ -383,9 +384,6 @@ export default {
   @include rwd (mobile){
     flex-wrap: wrap;
     line-height: 25px;
-  }
-  li{
-
   }
 }
 
