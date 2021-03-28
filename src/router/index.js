@@ -4,16 +4,13 @@ import Home from '../views/Home.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard',
-    component: Home,
-    children: [
-      // 首頁
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/Dashboard')
-      }
-    ]
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/reservation',
+    name: 'Reservation',
+    component: () => import('@/views/Reservation.vue')
   }
 ]
 

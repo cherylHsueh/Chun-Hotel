@@ -1,18 +1,26 @@
 <template>
-  <main>
-    <router-view></router-view>
+  <main class="container">
+    <default></default>
+    <rooms></rooms>
   </main>
-  <the-footer></the-footer>
 </template>
 
 <script>
-import TheFooter from '../components/layout/TheFooter.vue'
+import Default from '@/components/Default'
+import Rooms from '@/components/Rooms'
 
 export default {
   name: 'Home',
-  components:
-    {
-      TheFooter
-    }
+
+  components: {
+    Default,
+    Rooms
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+.container{
+  max-width: 1200px;
+}
+</style>

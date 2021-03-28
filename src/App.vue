@@ -1,6 +1,18 @@
 <template>
   <router-view></router-view>
+  <the-footer></the-footer>
 </template>
+
+<script>
+import TheFooter from '@/components/layout/TheFooter'
+
+export default {
+  name: 'App',
+  components: {
+    TheFooter
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

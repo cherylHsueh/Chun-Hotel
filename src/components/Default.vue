@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-srceen-8 d-flex">
+  <div class="h-srceen-8 d-flex">
     <div class="row">
       <div class="cl-s-12 cl-md-2 cl-xl-2">
         <div class="logo-block">
@@ -33,11 +33,11 @@
 
 <script>
 export default {
-  name: 'Dashboard'
+  name: 'Default'
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .row{
   align-items: center;

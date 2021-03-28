@@ -4,7 +4,6 @@
 
 body{
   font-family: "Microsoft JhengHei";
-  // font-family: "Microsoft YaHei" !important;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -30,6 +29,7 @@ img{
   }
 }
 
+// flex
 .d-flex{
   display: flex;
 }
@@ -42,6 +42,17 @@ img{
   justify-content: center;
 }
 
+.justify-space-around{
+  justify-content: space-between;
+}
+.flex-wrap{
+  flex-wrap: wrap;
+}
+.flex-nowrap{
+  flex-wrap: nowrap;
+}
+
+// 高度
 .full-screen{
   height: 100vh;
 }
@@ -49,5 +60,53 @@ img{
 @for $i from 1 through 9{
   .h-srceen-#{ $i }{
     height:$i * 10vh;
+  }
+}
+
+// 字體大小
+@for $i from 1 through 36{
+  .fSize-#{ $i }{
+    font-size:$i * 1px;
+  }
+}
+
+// padding
+@for $i from 1 through 16{
+  .pa-#{ $i }{
+    padding: $i * 4px ;
+  }
+
+  .px-#{ $i }{
+    padding-left: $i * 4px ;
+    padding-right: $i * 4px ;
+  }
+  .py-#{ $i }{
+    padding-top: $i * 4px ;
+    padding-bottom: $i * 4px ;
+  }
+
+  .pt-#{ $i }{
+    padding-top: $i * 4px ;
+  }
+
+  .pb-#{ $i }{
+    padding-bottom: $i * 4px ;
+  }
+
+  .pl-#{ $i }{
+    padding-left: $i * 4px ;
+  }
+
+  .pr-#{ $i }{
+    padding-right: $i * 4px ;
+  }
+
+  .mx-#{ $i }{
+    margin-left: $i * 4px ;
+    margin-right: $i * 4px ;
+  }
+  .my-#{ $i }{
+    margin-top: $i * 4px ;
+    margin-bottom: $i * 4px ;
   }
 }
