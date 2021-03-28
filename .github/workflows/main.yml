@@ -35,4 +35,4 @@ jobs:
         with:
           branch: gh-pages # deploy 到 gh-pages 這個分支
           folder: dist # build 後的資料夾
-          ssh-key: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
