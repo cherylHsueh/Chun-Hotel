@@ -28,5 +28,8 @@ h2{
   margin-bottom:100px;
   font-family: 'Dancing Script', cursive;
   font-size: 65px;
+  @include rwd (mobile){
+    font-size: 36px;
+  }
 }
 </style>
