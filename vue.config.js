@@ -18,6 +18,7 @@ function addStyleResource (rule) {
 }
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? '/Chun-Hotel' : '/',
   chainWebpack: config => {
     config.resolve.alias.set('utils', resolve('src/cores/utils.js'))
     // css相關:自動化導入(用於顏色、變量、mixin……)
