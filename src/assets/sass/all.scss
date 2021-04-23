@@ -1,8 +1,14 @@
 // 變數設定
 @import 'variable';
+
 // 重置設定
 @import 'reset';
+
 // 全站設定
 @import 'base';
+
+//自訂全局樣式
+@import 'custom';
+
 // 主要css
 @import 'main';

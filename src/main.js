@@ -10,6 +10,7 @@ import './assets/sass/all.scss'
 import dayjs from './plugins/dayjs'
 import fontAwesome from './plugins/fontAwesome'
 import calendar from './plugins/calendar'
+import Swal from './plugins/sweetalert'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -20,6 +21,7 @@ app.use(VueAxios, axios)
 app.use(dayjs)
 app.use(fontAwesome)
 app.use(calendar)
+app.use(Swal)
 app.use(router)
 app.use(store)
 app.mount('#app')

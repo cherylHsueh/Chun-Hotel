@@ -8,9 +8,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/reservation',
+    path: '/reservation/:id',
     name: 'Reservation',
     component: () => import('@/views/Reservation.vue')
+  },
+  {
+    path: '/success',
+    name: 'Success',
+    component: () => import('@/views/Success.vue')
   }
 ]
 

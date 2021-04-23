@@ -1,182 +1,275 @@
 <template>
-  <header class="mosaic-header">
-    <div class="mosaic-header__items">
-      <div class="mosaic-header__item mosaic-header__item--1">
-        <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1953&q=80" alt="">
-      </div>
+  <template v-if="Object.keys(roomInfo).length">
+    <!-- Header -->
+    <header class="mosaic-header">
+      <div class="mosaic-header__items">
+        <div class="mosaic-header__item mosaic-header__item--1">
+          <img :src="roomInfo.imageUrl[0]" alt="">
+        </div>
 
-      <div class="mosaic-header__item mosaic-header__item--2">
-        <img src="https://images.unsplash.com/photo-1526880792616-4217886b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="">
-      </div>
+        <div class="mosaic-header__item mosaic-header__item--2">
+          <img :src="roomInfo.imageUrl[1]" alt="">
+        </div>
 
-      <div class="mosaic-header__item mosaic-header__item--3">
-        <img src="https://images.unsplash.com/photo-1551776235-dde6d482980b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80" alt="">
+        <div class="mosaic-header__item mosaic-header__item--3">
+          <img :src="roomInfo.imageUrl[2]" alt="">
+        </div>
       </div>
-    </div>
-    <div class="mosaic-header__title">
-      <span>Single Room</span>
-    </div>
-  </header>
+      <div class="mosaic-header__title">
+        <span>{{ roomInfo.name }}</span>
+      </div>
+    </header>
 
-  <main class="main">
-    <div class="container">
-      <div class="row">
-        <section class="cl-s-12 cl-md-12 cl-xl-6">
-          <div class="booking-card">
-            <div class="booking-card__wrapper">
-              <div class="booking-card__form">
-                <!-- 預約表單 -->
-                <form class="form">
-                  <!-- 日期 -->
-                  <div class="form__field">
-                    <label for="date">日期</label>
-                    <DatePicker
-                      v-model="range"
-                      is-range
-                      color="green"
-                      class="form__field--date"
-                      :masks="masks"
-                      :min-date="new Date()"
-                      :popover="{
-                        placement: 'bottom',
-                        visibility: 'click'
-                      }"
+    <!-- 主要區塊 -->
+    <main class="main">
+      <div class="container">
+        <!-- 返回主頁 -->
+        <a a class="back-link" @click="backToHome">
+          <fa-icon icon="chevron-left"></fa-icon>
+          <span>查看其他房型</span>
+        </a>
+
+        <div class="row">
+          <!-- 表單 -->
+          <section class="cl-s-12 cl-md-12 cl-xl-6">
+            <div class="booking-card">
+              <div class="booking-card__wrapper">
+                <div class="booking-card__form">
+                  <!-- 預約表單 -->
+                  <form class="form">
+                    <!-- 日期 -->
+                    <div class="form__field">
+                      <label for="date">日期</label>
+                      <DatePicker
+                        v-model="dateRange"
+                        is-range
+                        color="green"
+                        class="form__field--date"
+                        :masks="masks"
+                        :min-date="minDate"
+                        :max-date="maxDate"
+                        :popover="{
+                          placement: 'bottom',
+                          visibility: 'click'
+                        }"
+                        :disabled-dates="disabledDates"
+                      >
+                        <template #default="{ inputValue,inputEvents}">
+                          <input
+                            :value="dateRange.start?inputValue.start:''"
+                            placeholder="入住"
+                            readonly
+                            v-on="inputEvents.start "
+                          >
+                          <img src="../assets/images/svg/arrow-right.svg" alt="arrow-right">
+                          <input
+                            :value="dateRange.start?inputValue.end:''"
+                            placeholder="退房"
+                            readonly
+                            v-on="inputEvents.end"
+                          >
+                        </template>
+                      </DatePicker>
+                    </div>
+
+                    <!-- 費用計算 -->
+                    <transition
+                      mode="out-in"
+                      enter-active-class="animate__animated animate__fadeInLeft"
                     >
-                      <template #default="{ inputValue,inputEvents}">
-                        <input
-                          :value="range.start?inputValue.start:''"
-                          placeholder="入住"
-                          v-on="inputEvents.start "
-                        >
-                        <img src="../assets/images/svg/arrow-right.svg" alt="arrow-right">
-                        <input
-                          :value="range.start?inputValue.end:''"
-                          placeholder="退房"
-                          v-on="inputEvents.end"
-                        >
-                      </template>
-                    </DatePicker>
-                  </div>
-                  <!-- 費用計算 -->
-                  <div class="form__field">
-                    <div class="form__field--fee">
-                      <span>平日(一～四)</span>
-                      <span>$1380 x 2 晚</span>
-                      <span>$2760</span>
-                    </div>
-                    <div class="form__field--fee">
-                      <span>假日(六～日)</span>
-                      <span>$1500 x 1 晚</span>
-                      <span>$1500</span>
-                    </div>
-                    <div class="form__field--amount">
-                      <span>$4260</span>
-                    </div>
-                  </div>
-                  <!-- 姓名 -->
-                  <div class="form__field">
-                    <label for="guestname">姓名</label>
-                    <input id="guestname" type="text" name="guestname">
-                  </div>
-                  <!-- 電話 -->
-                  <div class="form__field">
-                    <label for="tel">電話</label>
-                    <input id="tel" type="text" name="tel">
-                  </div>
-                  <!-- 確定預定日期按鈕 -->
-                  <div class="form__btn-wrapper">
-                    <button>確定預定日期</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
+                      <div v-if="calculateShow" class="form__field">
+                        <div class="form__field--fee">
+                          <span>平日(一～四)</span>
+                          <span>${{ roomInfo.normalDayPrice }} x {{ dateCalResult.weekdays }} 晚</span>
+                          <span>${{ roomInfo.normalDayPrice * dateCalResult.weekdays }}</span>
+                        </div>
+                        <div class="form__field--fee">
+                          <span>假日(六～日)</span>
+                          <span>${{ roomInfo.holidayPrice }} x {{ dateCalResult.holiday }} 晚</span>
+                          <span>${{ roomInfo.holidayPrice * dateCalResult.holiday }}</span>
+                        </div>
+                        <div class="form__field--amount">
+                          <span>${{ dateCalResult.amount }}</span>
+                        </div>
+                      </div>
+                    </transition>
 
-        <section class="cl-s-12 cl-md-12 cl-xl-6 flex-wrap">
-          <div>
-            <div class="room-info">
-              <div class="room-info__title">
-                <span>預約房間：</span>
-                <h2> Single Room</h2>
+                    <!-- 姓名 -->
+                    <div class="form__field">
+                      <label for="guestname">姓名</label>
+                      <input
+                        id="guestname"
+                        v-model.trim="guestInfo.name"
+                        type="text"
+                      >
+                    </div>
+                    <!-- 電話 -->
+                    <div class="form__field">
+                      <label for="tel">電話</label>
+                      <input
+                        id="tel"
+                        v-model="guestInfo.tel"
+                        type="tel"
+                        onkeyup="value=value.replace(/[^\d]/g,'')"
+                      >
+                    </div>
+                    <!-- 確定預定日期按鈕 -->
+                    <div class="form__btn-wrapper">
+                      <button @click.prevent="submit">
+                        確定預定日期
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
-              <p class="room-info__description">
-                Single Room is only reserved for one guest. There is a bedroom with a single size bed and a private bathroom. Everything you need prepared for you: sheets and blankets, towels, soap and shampoo, hairdryer are provided. In the room there is AC and of course WiFi.
-              </p>
-              <ul class="room-info__intro-list">
-                <li class="room-info__intro-item">
-                  房間限制人數：1人
-                </li>
-                <li>房間大小：18平方公尺</li>
-                <li>1張single床,1間獨立衛浴</li>
-              </ul>
             </div>
-            <ul class="room-amenities">
-              <li>wifi,</li>
-              <li>早餐,</li>
-              <li>電話,</li>
-              <li>空調,</li>
-              <li>冰箱,</li>
-              <li>禁止吸煙,</li>
-              <li>可帶寵物</li>
-            </ul>
-            <div class="room-checks">
-              <span class="room-checks__title fSize-12">checkin 時間</span>
-              <span class="room-checks__time fSize-24">15:00~21:00</span>
-            </div>
-            <div class="room-checks">
-              <span class="room-checks__title fSize-12">最晚checkout時間</span>
-              <span class="room-checks__time  fSize-24">10:00</span>
-            </div>
-            <div class="room-price">
-              <span class="room-price__title fSize-12">平日(一～四)</span>
-              <span class="room-price__per-night fSize-24">$1380</span>
-            </div>
-            <div class="room-price">
-              <span class="room-price__title fSize-12">假日(五～日)</span>
-              <span class="room-price__per-night fSize-24">$1500</span>
-            </div>
-          </div>
-        </section>
+          </section>
+
+          <!-- 房型資訊 -->
+          <section class="cl-s-12 cl-md-12 cl-xl-6 flex-wrap">
+            <room-intro :room-info="roomInfo" is-reservation></room-intro>
+          </section>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </template>
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, onMounted, computed, inject, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+import { getAmenities, getRoomDesc, getTotalPrice } from '../composition-api'
+import { apiPostBooking } from '../api'
+import RoomIntro from '@/components/RoomIntro'
+
 export default {
   name: 'Reservation',
+
+  components: { RoomIntro },
+
   setup () {
-    // const dayjs = inject('dayjs')
+    const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
+    const dayjs = inject('dayjs')
+    const Swal = inject('Swal')
 
-    const range = ref({
-      start: null,
-      end: null
+    const dateRange = ref({ start: null, end: null })// 日期範圍
+    const masks = reactive({ title: 'YYYY MMMM' }) // 日期相關參數
+    const guestInfo = ref({})// 訂房人資訊
+    const roomInfo = ref({}) // 房型資訊
+    const roomDesc = ref({}) // 房型描述
+    const amenities = ref({}) // 房間設施
+    const isBookedDate = ref([]) // 被預訂日期
+    const dateCalResult = ref({}) // 平日假日天數
+    const calculateShow = ref(false) // 房價計算顯示
+
+    onMounted(async () => {
+      try {
+        store.dispatch('setIsLoading', true)
+
+        const res = await store.dispatch('getRoomDetail', route.params.id)
+        roomInfo.value = res.data.room[0]
+        isBookedDate.value = res.data.booking
+
+        // 取得房型說明
+        roomDesc.value = getRoomDesc(roomInfo.value.descriptionShort)
+
+        // 取得房間設施
+        amenities.value = getAmenities(roomInfo.value.amenities)
+      } catch (error) {
+        Swal.fire({
+          title: 'error',
+          icon: 'error'
+        })
+      } finally {
+        setTimeout(() => {
+          store.dispatch('setIsLoading', false)
+        }, 1000)
+      }
     })
-    const masks = reactive({
-      title: 'YYYY MMMM'
-    })
 
-    // watch([() => range.value.start, () => range.value.end], ([newStart, newEnd]) => {
-    //   if (!newStart | !newEnd) return
-    //   console.log('newStart', newStart)
-    //   console.log('newEnd', newEnd)
-    // })
-    const dragRange = ref(null)
-
-    watch(
-      () => range.value.start,
-      (newStart) => {
-        if (newStart) { console.log('newStart', newStart) }
+    // 禁止選取日期
+    const disabledDates = computed(() => {
+      const disabled = []
+      isBookedDate.value.forEach(item => {
+        disabled.push(item.date)
       })
-
-    watch(dragRange, () => {
-      console.log('root', dragRange.value.value)
-      // console.log(JSON.stringify(val))
+      return disabled
     })
 
-    return { range, masks, dragRange }
+    // 選取日期大於今日
+    const minDate = computed(() => dayjs(new Date()).add(1, 'day').format('YYYY-MM-DD'))
+
+    // 選取日期限制90天內
+    const maxDate = computed(() => dayjs(new Date()).add(90, 'day').format('YYYY-MM-DD'))
+
+    // 驗證必填欄位
+    const isRequired = computed(() => {
+      return !dateRange.value.start || !dateRange.value.end || !guestInfo.value.name || !guestInfo.value.tel
+    })
+
+    // 計算平日假日天數及費用
+    watch([() => dateRange.value.start, () => dateRange.value.end], ([newStart, newEnd]) => {
+      if (newStart && newEnd) {
+        dateCalResult.value = getTotalPrice(dateRange.value, roomInfo.value)
+        setTimeout(() => {
+          calculateShow.value = true
+        }, 500)
+      }
+    })
+
+    // 確認送出
+    const submit = async () => {
+      try {
+        if (isRequired.value) {
+          return Swal.fire({
+            title: '尚有未填寫資料',
+            text: '請輸入完整訂房資訊',
+            icon: 'warning'
+          })
+        }
+
+        store.dispatch('setIsLoading', true)
+
+        const startDate = dayjs(dateRange.value.start).format('YYYY-MM-DD')
+        const endDate = dayjs(dateRange.value.end).format('YYYY-MM-DD')
+        const date = [startDate, endDate]
+
+        const payload = {
+          date,
+          name: guestInfo.value.name,
+          tel: guestInfo.value.tel
+        }
+
+        const res = await apiPostBooking(route.params.id, payload)
+
+        if (res.data.success) {
+          router.push({ name: 'Success' })
+          const payload = {
+            ...res.data,
+            dateCalResult: dateCalResult.value
+          }
+          store.dispatch('accessReservationInfo', payload)
+        }
+      } catch (error) {
+        Swal.fire({
+          title: '預約失敗',
+          text: error.response.data.message,
+          icon: 'error'
+        })
+      } finally {
+        store.dispatch('setIsLoading', false)
+      }
+    }
+
+    // 返回主頁(查看其他房型)
+    const backToHome = () => {
+      router.push({ path: '/' })
+    }
+
+    return { dateRange, masks, guestInfo, roomInfo, roomDesc, amenities, submit, disabledDates, minDate, maxDate, dateCalResult, calculateShow, backToHome }
   }
 }
 </script>
@@ -253,11 +346,10 @@ export default {
 }
 
 .container{
-  max-width: 1200px;
+  max-width: 1280px;
 }
 
 .booking-card{
-  //  width: 100%;
   margin: auto;
   background: #E3EAE2;
   &__wrapper{
@@ -304,12 +396,25 @@ export default {
     &--date input:nth-child(3) {
       border-left:none;
     }
+    &--subtotal{
+      width:100%;
+      padding:10px
+    }
     &--fee{
       display: flex;
       width: 100%;
       justify-content: space-between;
       padding: 15px 0;
       position: relative;
+      span{
+        width: 33.333%;
+      }
+    }
+    &--fee span:first-child{
+      text-align: left;
+    }
+    &--fee span:last-child{
+      text-align: right;
     }
     &--fee:nth-child(2):after{
       content: '';
@@ -347,71 +452,6 @@ export default {
       color: #fff;
       background-color: #496146;
     }
-  }
-}
-
-// 房間相關資訊
-.room-info{
-  text-align: left;
-  &__title{
-    font-size: 26px;
-    font-weight: 200;
-    padding: 10px 0;
-    h2{
-      padding:15px 0;
-    }
-  }
-  &__description{
-    line-height: 25px;
-  }
-  &__intro-list{
-    padding: 10px 0;
-    li{
-      padding: 10px 0;
-    }
-  }
-
-}
-
-// 房間設備
-.room-amenities{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-  letter-spacing: 2px;
-  background-color: #E3EAE2;
-  @include rwd (mobile){
-    flex-wrap: wrap;
-    line-height: 25px;
-  }
-}
-
-// 入住離開時間資訊
-.room-checks{
-  display: inline-block;
-  width: 50%;
-  padding:10px 0;
-  text-align: left;
-  span{
-    width: 80%;
-    margin: auto;
-    display:block;
-    padding:5px 0;
-  }
-}
-
-// 房間價格資訊
-.room-price{
-  display: inline-block;
-  width: 50%;
-  padding:10px 0;
-  text-align: left;
-  span{
-    width: 80%;
-    margin: auto;
-    display:block;
-    padding:5px 0;
   }
 }
 

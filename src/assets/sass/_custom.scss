@@ -1,0 +1,15 @@
+/**
+ * 任何自訂全局樣式請寫在這邊
+ */
+
+
+ //  返回主頁連結
+.back-link{
+  display:block;
+  text-align:left;
+  cursor: pointer;
+  padding: 20px 0;
+  span{
+    padding-left:10px;
+  }
+}

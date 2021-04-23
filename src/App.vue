@@ -1,15 +1,20 @@
 <template>
   <router-view></router-view>
+  <!-- Footer -->
   <the-footer></the-footer>
+  <!-- 全局加載畫面 -->
+  <loader-spinner></loader-spinner>
 </template>
 
 <script>
 import TheFooter from '@/components/layout/TheFooter'
+import LoaderSpinner from '@/components/LoaderSpinner'
 
 export default {
   name: 'App',
   components: {
-    TheFooter
+    TheFooter,
+    LoaderSpinner
   }
 }
 </script>

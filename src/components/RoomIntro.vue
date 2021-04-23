@@ -1,130 +1,148 @@
 <template>
-  <div class="room">
-    <div class="room-title">
-      Single Room
+  <div class="room-info">
+    <div class="room-info__title">
+      <span>預約房間：</span>
+      <h2> {{ roomInfo.name }}</h2>
     </div>
-
-    <div class="card">
-      <div class="card-img">
-        <img :src="pic" alt="">
-      </div>
-      <ul class="card-details">
-        <li class="card-details-item container">
-          <div class="row py-3 fSize-10">
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>人數</span>
-            </div>
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>床</span>
-            </div>
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>大小</span>
-            </div>
-          </div>
-          <div class="row pb-3 fSize-18">
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>1</span>
-            </div>
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>Single</span>
-            </div>
-            <div class="cl-s-4 cl-xl-4 justify-center">
-              <span>18㎡</span>
-            </div>
-          </div>
-        </li>
-        <li class="card-details-item card-details-item_baseline py-3">
-          <span class="fSize-12">wifi,早餐,電話,空調,冰箱,禁止吸菸,可帶動物</span>
-        </li>
-        <li class="card-details-item py-6">
-          <span>假日</span>
-          <span>$3000</span>
-        </li>
-        <li class="card-details-item py-6">
-          <span>平日</span>
-          <span>$2888</span>
-        </li>
-      </ul>
-    </div>
+    <p class="room-info__description">
+      {{ roomInfo.description }}
+    </p>
+    <ul class="room-info__intro-list">
+      <li>
+        房間限制人數：{{ roomDesc.peopleLimit }}人
+      </li>
+      <li>房間大小： {{ roomDesc.footage }}平方公尺</li>
+      <li>{{ roomDesc.bed }},{{ roomDesc.privateBath }}間獨立衛浴</li>
+    </ul>
   </div>
+  <ul class="room-amenities">
+    <li v-text="amenities"></li>
+  </ul>
+  <template v-if="isReservation">
+    <div class="room-checks">
+      <span class="room-checks__title fSize-12">checkin 時間</span>
+      <span class="room-checks__time fSize-24">{{ `${roomInfo.checkInAndOut['checkInEarly']}~${roomInfo.checkInAndOut['checkInLate']}` }}</span>
+    </div>
+    <div class="room-checks">
+      <span class="room-checks__title fSize-12">最晚checkout時間</span>
+      <span class="room-checks__time  fSize-24">{{ roomInfo.checkInAndOut['checkOut'] }}</span>
+    </div>
+    <div class="room-price">
+      <span class="room-price__title fSize-12">平日(一～四)</span>
+      <span class="room-price__per-night fSize-24">${{ roomInfo.normalDayPrice }}</span>
+    </div>
+    <div class="room-price">
+      <span class="room-price__title fSize-12">假日(五～日)</span>
+      <span class="room-price__per-night fSize-24">${{ roomInfo.holidayPrice }}</span>
+    </div>
+  </template>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { getRoomDesc, getAmenities } from '../composition-api'
 
 export default {
   name: 'RoomIntro',
 
-  setup () {
-    const pic = ref('https://images.unsplash.com/photo-1526880792616-4217886b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')
-    return { pic }
+  props: {
+    roomInfo: {
+      type: Object,
+      default: () => {}
+    },
+    isReservation: Boolean
+  },
+
+  setup (props) {
+    const roomInfo = ref({}) // 房型資訊
+    const roomDesc = ref({}) // 房型描述
+    const amenities = ref({}) // 房間設施
+
+    if (Object.keys(props.roomInfo).length) {
+      roomInfo.value = JSON.parse(JSON.stringify(props.roomInfo))
+
+      // 取得房型說明
+      roomDesc.value = getRoomDesc(roomInfo.value.descriptionShort)
+
+      // 取得房間設施
+      amenities.value = getAmenities(roomInfo.value.amenities)
+    }
+
+    return { props, roomDesc, amenities }
   }
 }
 
 </script>
 
-<style lang="scss" >
-.room{
+<style lang="scss" scoped>
+// 房間相關資訊
+.room-info{
+  text-align: left;
+  &__title{
+    font-size: 26px;
+    font-weight: 200;
+    padding: 20px 0;
+    @include rwd(mobile){
+      font-size: 22px;
+      padding: 20px 0;
+    }
+    h2{
+      padding-top:10px;
+    }
+  }
+  &__description{
+    line-height: 25px;
+  }
+  &__intro-list{
+    padding: 10px 0;
+    li{
+      padding: 10px 0;
+    }
+  }
+
+}
+
+// 房間設備
+.room-amenities{
+  width: 100%;
   display: flex;
-  align-items: flex-start;
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 100px;
+  justify-content: center;
+  padding: 15px 10px;
+  line-height: 25px;
+  letter-spacing: 2px;
+  background-color: #E3EAE2;
+  @include rwd (mobile){
+    flex-wrap: wrap;
+    line-height: 25px;
+    font-size: 14px;
+  }
 }
 
-.room-title{
-  writing-mode: vertical-lr;
-  font-size: 26px;
-  padding: 10px;
+// 入住離開時間資訊
+.room-checks{
+  display: inline-block;
+  width: 50%;
+  padding:10px 0;
+  text-align: left;
+  span{
+    width: 80%;
+    margin: auto;
+    display:block;
+    padding:5px 0;
+  }
 }
 
-.card{
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #E3EAE2;
-  &-img{
-    max-width: 300px;
-    height: 300px;
-    overflow: hidden;
-    position: relative;
-
-    img{
-      width: 100%;
-          position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    }
-  }
-  &-details-item{
-    position: relative;
-    &_baseline::before{
-      content: '';
-      display: inline-block;
-      width: 100%;
-      height: 1px;
-      background-color:$secondary-color;
-      opacity: .2;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-    }
-    &_baseline::after{
-      content: '';
-      display: inline-block;
-      width: 100%;
-      height: 1px;
-      background-color:$secondary-color;
-      opacity: .2;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  }
-  &-details-item:last-child{
-    background-color: #E3EAE2;
+// 房間價格資訊
+.room-price{
+  display: inline-block;
+  width: 50%;
+  padding:10px 0;
+  text-align: left;
+  span{
+    width: 80%;
+    margin: auto;
+    display:block;
+    padding:5px 0;
   }
 }
 </style>
