@@ -23,9 +23,15 @@ const routes = [
   }
 ]
 
+// [ 路由切換滾動 ]
+const scrollBehavior = (to, from, savedPosition) => {
+  return { left: 0, top: 0 }
+}
+
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior: scrollBehavior
 })
 
 export default router
