@@ -15,9 +15,13 @@
       <li>{{ roomDesc.bed }},{{ roomDesc.privateBath }}間獨立衛浴</li>
     </ul>
   </div>
-  <ul class="room-amenities">
-    <li v-text="amenities"></li>
-  </ul>
+
+  <!-- 房間設施 -->
+  <div class="room-amenities">
+    <span v-text="amenities"></span>
+  </div>
+
+  <!--進退房時間及房價 -->
   <template v-if="isReservation">
     <div class="room-checks">
       <span class="room-checks__title fSize-12">checkin 時間</span>

@@ -3,11 +3,6 @@ $gutter-width:30px;
 
 //RWD斷點判斷函數
 @mixin rwd ($breakpoint) {
-  // @if $breakpoint == small{
-  //     @media all and (max-width:$small){
-  //         @content;
-  //     }
-  // }
   @if $breakpoint == mobile {
       @media all and (max-width: $mobile)  {
           @content;
@@ -18,11 +13,6 @@ $gutter-width:30px;
           @content;
       }
   }
-  // @else if $breakpoint == large {
-  //     @media all and (min-width: $large) {
-  //         @content;
-  //     }
-  // }
   @else if $breakpoint == desktop {
       @media all and (min-width: $medium + 1px) {
           @content;
@@ -45,7 +35,6 @@ $gutter-width:30px;
 
 .container{
   margin: 0 auto;
-  // max-width: 1200px;
   width: 100%;
   padding-left: $gutter-width / 2;
   padding-right: $gutter-width / 2;
@@ -59,17 +48,3 @@ $gutter-width:30px;
   margin-left: -($gutter-width / 2);
   margin-right: -($gutter-width / 2);
 }
-
-
-// @mixin grid($attr , $num) {
-//   .cl-#{$attr}-#{1},.cl-#{$attr}-#{2},.cl-#{$attr}-#{3},.cl-#{$attr}-#{4},.cl-#{$attr}-#{5},.cl-#{$attr}-#{6},
-//   .cl-#{$attr}-#{7},.cl-#{$attr}-#{8},.cl-#{$attr}-#{9},.cl-#{$attr}-#{10},.cl-#{$attr}-#{11},.cl-#{$attr}-#{12}{
-//       float: left;
-//       box-sizing: border-box;
-//   };
-//   @for $i from 1 through $num {
-//       .cl-#{$attr}-#{$i}{
-//         width: ($i / $num) * 100%;
-//       }
-//   }
-// }

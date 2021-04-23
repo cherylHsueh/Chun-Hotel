@@ -166,7 +166,7 @@ section{
 
 // 訂房人資訊
 .booking-card{
-  width: 70%;
+  width: 80%;
   margin:0 auto;
   padding-top:20px;
   color:#496146;
@@ -200,8 +200,12 @@ section{
       }
     }
     &--price{
-      li{
-        justify-content: space-between;
+      li span{
+        width: 33.333%;
+        text-align: right;
+      }
+      li span:first-child{
+        text-align: left;
       }
     }
     &--price::after{
@@ -222,7 +226,7 @@ section{
 
 // 提醒資訊
 .remind-info{
-  width: 70%;
+  width: 80%;
   margin: 5% auto;
   padding: 10px 0;
   border: 1px solid #A5BB94;

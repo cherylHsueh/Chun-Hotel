@@ -2,18 +2,17 @@
   <div v-if="roomsList.length">
     <h2>ROOMS</h2>
     <div class="row justify-center">
-      <div v-for="item in roomsList" :key="item" class="cl-md-6 cl-xl-4">
+      <div v-for="item in roomsList" :key="item" class="cl-s-12 cl-md-6 cl-xl-4">
         <div class="room">
-          <div class="room-title">
-            {{ item.name }}
+          <div class="room-title" v-text="item.name">
           </div>
 
           <div class="card" @click="goToDetail(item.id)">
             <div class="card-img">
-              <img :src="item.imageUrl[0]" alt="">
+              <img :src="item.imageUrl[0]" :alt="item.name">
             </div>
             <ul class="card-details">
-              <li class="card-details-item ">
+              <li class="card-details-item">
                 <div class="card-details-item__group fSize-10">
                   <span>人數</span>
                   <span>床</span>
@@ -161,7 +160,6 @@ h2{
         font-size: 12px;
         letter-spacing: 2px;
         line-height: 20px;
-        word-break: keep-all;
       }
     }
     &__baseline::before{

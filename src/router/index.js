@@ -16,6 +16,10 @@ const routes = [
     path: '/success',
     name: 'Success',
     component: () => import('@/views/Success.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: 'Home' }
   }
 ]
 
