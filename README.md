@@ -1,19 +1,14 @@
-# chun-hotel
+# Hotel Booking Site with Vue
 
-## Project setup
-```
-npm install
-```
+## Demo
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+**Live URL:**：[https://cherylhsueh.github.io/Chun-Hotel/#/](https://cherylhsueh.github.io/Chun-Hotel/#/)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Installation
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. Clone this repo
+2. Run `npm install`
+
+## Development
+1.`npm run serve`:Run the app in development mode.
+2.`npm run build`: Builds the app for production to the build folder.
